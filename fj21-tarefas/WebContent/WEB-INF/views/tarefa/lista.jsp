@@ -10,6 +10,7 @@
 </head>
 <body>
 	<a href="novaTarefa">Criar nova tarefa</a>
+	<a href="mostraTarefa?id=${tarefa.id}">Alterar</a>
 
 	<table>
 		<tr>
@@ -27,6 +28,7 @@
 				</c:if>
 				<td><fmt:formatDate value="${tarefa.dataFinalizacao.time}"
 						pattern="dd/MM/yyyy" /></td>
+			<td><a href="removeTarefa?id=${tarefa.id}">Remover tarefa</a></td>
 			</tr>
 		</c:forEach>
 
