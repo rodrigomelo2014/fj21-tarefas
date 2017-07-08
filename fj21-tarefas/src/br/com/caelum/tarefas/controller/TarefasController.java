@@ -1,11 +1,15 @@
 package br.com.caelum.tarefas.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.caelum.tarefas.dao.JdbcTarefaDao;
 import br.com.caelum.tarefas.modelo.Tarefa;
@@ -51,7 +55,18 @@ public class TarefasController{
 	public String altera(Tarefa tarefa){
 		JdbcTarefaDao dao = new JdbcTarefaDao();
 		dao.altera(tarefa);
-		return "rediret:listaTarefas";
+		return "redirect:listaTarefas";
+	}
+	
+	@ResponseBody
+	@RequestMapping("finalizaTarefa")
+	public String finaliza(Long id){
+		JdbcTarefaDao dao = new JdbcTarefaDao();
+		dao.finaliza(id);
+		Tarefa t = dao.buscaPorId(id);
+		Date date = t.getDataFinalizacao().getTime();
+		String fmt = new SimpleDateFormat("dd/MM/yyyy").format(date);
+		return fmt;
 	}
 	
 	

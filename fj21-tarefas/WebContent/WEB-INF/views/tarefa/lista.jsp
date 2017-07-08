@@ -5,13 +5,23 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <html>
 <head>
+<script type="text/javascript" src="resources/js/jquery.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Lista Spring</title>
 </head>
 <body>
+<script type="text/javascript">
+	   			 function finalizaAgora(id) {
+	     		 	$.post("finalizaTarefa",{'id' : id}, function(resposta){
+	       		 	$("#tarefa_"+id).html("Finalizado");
+	        		$("#data_"+id).html(resposta);
+	     		 	});
+	    		 }
+	  		</script>
+	  		
 	<a href="novaTarefa">Criar nova tarefa</a>
-	<a href="mostraTarefa?id=${tarefa.id}">Alterar</a>
-
+	
+			
 	<table>
 		<tr>
 			<th>Id</th>
@@ -24,11 +34,14 @@
 				<td>${tarefa.id}</td>
 				<td>${tarefa.descricao}</td>
 				<c:if test="${tarefa.finalizado eq false}">
-					<td>Não finalizado</td>
+					<td id="tarefa_${tarefa.id}"><a href="#" onclick="finalizaAgora(${tarefa.id})">Finalizar</a></td>
 				</c:if>
-				<td><fmt:formatDate value="${tarefa.dataFinalizacao.time}"
+				<c:if test="${tarefa.finalizado eq true}"><td>Finalizado</td>
+				</c:if>
+				<td id="data_${tarefa.id}"><fmt:formatDate value="${tarefa.dataFinalizacao.time}"
 						pattern="dd/MM/yyyy" /></td>
 			<td><a href="removeTarefa?id=${tarefa.id}">Remover tarefa</a></td>
+			<td><a href="mostraTarefa?id=${tarefa.id}">Alterar</a></td>
 			</tr>
 		</c:forEach>
 
